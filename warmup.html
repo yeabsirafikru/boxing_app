@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥊 Warmup & Cooldown System - Triple Threat Training</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/warmup.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="warmup-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Main
+                </a>
+                <div class="header-title">
+                    <i class="fas fa-fire"></i>
+                    <h1>Warmup & Cooldown System</h1>
+                    <span class="subtitle">Dynamic routines tailored to each training program</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="save-routine">
+                        <i class="fas fa-save"></i>
+                        Save Current
+                    </button>
+                    <button class="btn btn-primary" id="start-timer">
+                        <i class="fas fa-play"></i>
+                        Start Routine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="warmup-main">
+        <div class="container">
+            <!-- Program Selection -->
+            <section class="program-selection">
+                <h2 class="section-title">
+                    <i class="fas fa-dumbbell"></i>
+                    Select Your Training Program
+                </h2>
+                <div class="program-cards">
+                    <div class="program-card active" data-program="boxing">
+                        <div class="program-icon boxing">
+                            <i class="fas fa-fist-raised"></i>
+                        </div>
+                        <div class="program-info">
+                            <h3>Boxing</h3>
+                            <p>Dynamic warmup for boxing training</p>
+                            <span class="program-time">15-20 minutes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card" data-program="handstand">
+                        <div class="program-icon handstand">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <div class="program-info">
+                            <h3>Handstand</h3>
+                            <p>Mobility & activation for hand balancing</p>
+                            <span class="program-time">10-15 minutes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card" data-program="strength">
+                        <div class="program-icon strength">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="program-info">
+                            <h3>Strength</h3>
+                            <p>Full body warmup for strength training</p>
+                            <span class="program-time">20-25 minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Routine Type Tabs -->
+            <section class="routine-tabs">
+                <div class="tabs">
+                    <button class="tab-btn active" data-routine="warmup">
+                        <i class="fas fa-fire"></i>
+                        <span>Warmup Routine</span>
+                    </button>
+                    <button class="tab-btn" data-routine="cooldown">
+                        <i class="fas fa-snowflake"></i>
+                        <span>Cooldown Routine</span>
+                    </button>
+                    <button class="tab-btn" data-routine="both">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Full Session</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Timer Section -->
+            <section class="timer-section">
+                <div class="timer-container">
+                    <div class="timer-display" id="main-timer">00:00</div>
+                    <div class="timer-label" id="timer-label">Ready to start</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn start-btn" id="start-btn">
+                            <i class="fas fa-play"></i>
+                            Start
+                        </button>
+                        <button class="timer-btn pause-btn" id="pause-btn" disabled>
+                            <i class="fas fa-pause"></i>
+                            Pause
+                        </button>
+                        <button class="timer-btn reset-btn" id="reset-btn">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                        <button class="timer-btn skip-btn" id="skip-btn">
+                            <i class="fas fa-forward"></i>
+                            Skip
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="current-exercise">
+                    <div class="exercise-header">
+                        <h4>Current Exercise</h4>
+                        <span class="exercise-time" id="exercise-time">--:--</span>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-icon">
+                            <i class="fas fa-running" id="exercise-icon"></i>
+                        </div>
+                        <div class="exercise-info">
+                            <h3 id="exercise-name">Select a routine to begin</h3>
+                            <p id="exercise-description">Choose your training program and routine type above</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercise Grid -->
+            <section class="exercises-grid">
+                <div class="grid-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list-ol"></i>
+                        <span id="routine-title">Warmup Exercises</span>
+                    </h2>
+                    <div class="routine-stats">
+                        <div class="stat">
+                            <i class="fas fa-clock"></i>
+                            <span id="total-time">15-20 min</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-list"></i>
+                            <span id="exercise-count">8 exercises</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-bolt"></i>
+                            <span id="intensity-level">Moderate</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercises-list" id="exercises-list">
+                    <!-- Exercises will be populated by JavaScript -->
+                </div>
+                
+                <div class="routine-instructions">
+                    <div class="instructions-box">
+                        <h4><i class="fas fa-lightbulb"></i> Important Notes:</h4>
+                        <ul>
+                            <li>Start with lighter intensity and gradually increase</li>
+                            <li>Focus on proper form over speed</li>
+                            <li>Breathe steadily throughout all exercises</li>
+                            <li>Listen to your body and modify as needed</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Start Routines -->
+            <section class="quick-routines">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    Quick Start Routines
+                </h2>
+                <div class="routine-cards">
+                    <div class="routine-card quick" data-program="boxing" data-routine="warmup">
+                        <div class="routine-header boxing">
+                            <i class="fas fa-fist-raised"></i>
+                            <h3>Quick Boxing Warmup</h3>
+                        </div>
+                        <div class="routine-body">
+                            <p>5-minute essential warmup for boxing sessions</p>
+                            <div class="routine-meta">
+                                <span><i class="fas fa-clock"></i> 5 min</span>
+                                <span><i class="fas fa-list"></i> 4 exercises</span>
+                            </div>
+                            <button class="btn btn-small btn-primary">Start Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="routine-card quick" data-program="handstand" data-routine="warmup">
+                        <div class="routine-header handstand">
+                            <i class="fas fa-hands"></i>
+                            <h3>Quick Handstand Prep</h3>
+                        </div>
+                        <div class="routine-body">
+                            <p>Essential wrist and shoulder warmup</p>
+                            <div class="routine-meta">
+                                <span><i class="fas fa-clock"></i> 7 min</span>
+                                <span><i class="fas fa-list"></i> 5 exercises</span>
+                            </div>
+                            <button class="btn btn-small btn-primary">Start Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="routine-card quick" data-program="strength" data-routine="warmup">
+                        <div class="routine-header strength">
+                            <i class="fas fa-dumbbell"></i>
+                            <h3>Quick Strength Warmup</h3>
+                        </div>
+                        <div class="routine-body">
+                            <p>Fast full-body activation for lifting</p>
+                            <div class="routine-meta">
+                                <span><i class="fas fa-clock"></i> 6 min</span>
+                                <span><i class="fas fa-list"></i> 4 exercises</span>
+                            </div>
+                            <button class="btn btn-small btn-primary">Start Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="warmup-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-heart"></i> Why Warmup & Cooldown?</h4>
+                    <p>Proper warmups increase blood flow, improve mobility, and reduce injury risk. Cooldowns aid recovery and flexibility.</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-tips"></i> Tips</h4>
+                    <ul>
+                        <li>Always warmup before intense training</li>
+                        <li>Never skip cooldown after workouts</li>
+                        <li>Stay hydrated throughout</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-history"></i> Recent Routines</h4>
+                    <div class="recent-list" id="recent-list">
+                        <!-- Recent routines will be populated -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Triple Threat Training - Warmup & Cooldown System</p>
+                <a href="index.html" class="return-home">
+                    <i class="fas fa-home"></i>
+                    Return to Main App
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Routine Complete -->
+    <div class="modal" id="completion-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-trophy"></i>
+                    Routine Complete!
+                </h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="completion-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Great work!</h3>
+                <p>You've successfully completed your <span id="completed-routine">warmup</span> routine.</p>
+                <div class="completion-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="completed-time">15:30</div>
+                        <div class="stat-label">Total Time</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="completed-exercises">8</div>
+                        <div class="stat-label">Exercises</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="completed-calories">85</div>
+                        <div class="stat-label">Calories</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">How did you feel during this routine?</label>
+                    <select class="form-control" id="routine-feeling">
+                        <option value="great">Great - Energized and ready</option>
+                        <option value="good">Good - Properly warmed up</option>
+                        <option value="okay">Okay - Could be better</option>
+                        <option value="tough">Tough - Found it challenging</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="modal-close">Close</button>
+                    <button class="btn btn-primary" id="modal-save">
+                        <i class="fas fa-save"></i>
+                        Save & Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/warmup.js"></script>
+</body>
+</html>
