@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥊 Triple Threat Training - Auto Stimulus System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="stimuli.css"> <!-- Changed from stimuli.css to style.css -->
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-fist-raised"></i>
+                    <div>
+                        <h1>Triple Threat Training</h1>
+                        <span class="subtitle">Automatic MMA Stimulus System</span>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="current-technique">1</div>
+                        <div class="stat-label">Current Tech</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-techniques">30</div>
+                        <div class="stat-label">Total Techs</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="session-time">00:00</div>
+                        <div class="stat-label">Session Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-grid">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <!-- 30-Day Plan Section -->
+                <div class="thirty-day-plan">
+                    <div class="section-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        30-Day Boxing Plan
+                    </div>
+                    
+                    <div class="plan-controls">
+                        <div class="plan-day-selector">
+                            <button class="btn btn-small" id="prev-day">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="current-day-display">
+                                <div class="day-number">Day <span id="current-day">1</span></div>
+                                <div class="day-title" id="day-title">JAB + BASIC DEFENSE</div>
+                            </div>
+                            <button class="btn btn-small" id="next-day">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="plan-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="plan-progress" style="width: 3.33%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span id="days-completed">0</span>/30 days
+                                <span class="progress-percent" id="plan-percent">3.33%</span>
+                            </div>
+                        </div>
+<div class="plan-activation">
+    <button class="btn btn-primary" id="activate-plan">
+        <i class="fas fa-bolt"></i>
+        Activate Today's Plan
+    </button>
+    <button class="btn btn-secondary" id="start-with-plan">
+        <i class="fas fa-play-circle"></i>
+        Activate & Start
+    </button>
+</div>
+                        <div class="plan-exercises" id="day-exercises">
+                            <!-- Exercises will be populated by JavaScript -->
+                        </div>
+                        
+                        <!-- ADDED: Complete Day Button -->
+                        <button class="btn btn-success" id="complete-day" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-check-circle"></i>
+                            Complete Day
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Session Settings -->
+                <div class="session-settings">
+                    <div class="section-title">
+                        <i class="fas fa-cog"></i>
+                        Session Settings
+                    </div>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-clock"></i>
+                                Stimulus Duration
+                            </div>
+                            <div class="setting-control">
+                                <input type="range" id="stimulus-duration" min="0.5" max="3" step="0.1" value="1.0">
+                                <div class="setting-value" id="duration-value">1.0s</div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-pause"></i>
+                                Delay Between
+                            </div>
+                            <div class="setting-control">
+                                <input type="range" id="stimulus-delay" min="0" max="2" step="0.1" value="0.3">
+                                <div class="setting-value" id="delay-value">0.3s</div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-sync-alt"></i>
+                                Total Rounds
+                            </div>
+                            <div class="setting-control">
+                                <input type="range" id="total-rounds" min="1" max="12" step="1" value="5">
+                                <div class="setting-value" id="rounds-value">5 Rounds</div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-stopwatch"></i>
+                                Round Duration
+                            </div>
+                            <div class="setting-control">
+                                <input type="range" id="round-duration" min="60" max="300" step="30" value="180">
+                                <div class="setting-value" id="round-duration-value">3:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technique Selection -->
+                <div class="technique-selection">
+                    <div class="section-title">
+                        <i class="fas fa-filter"></i>
+                        Technique Selection
+                    </div>
+                    <div class="technique-categories">
+                        <div class="category-section">
+                            <h4>Punches</h4>
+                            <div class="technique-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="jab" checked>
+                                    <span class="checkmark" style="background: var(--strike-red);"></span>
+                                    <span>Jab</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="cross" checked>
+                                    <span class="checkmark" style="background: var(--strike-blue);"></span>
+                                    <span>Cross</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="hook-left" checked>
+                                    <span class="checkmark" style="background: var(--strike-yellow);"></span>
+                                    <span>Hook Left</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="hook-right" checked>
+                                    <span class="checkmark" style="background: var(--strike-yellow);"></span>
+                                    <span>Hook Right</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="uppercut-left">
+                                    <span class="checkmark" style="background: var(--strike-green);"></span>
+                                    <span>Uppercut L</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="uppercut-right">
+                                    <span class="checkmark" style="background: var(--strike-green);"></span>
+                                    <span>Uppercut R</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="overhand-right">
+                                    <span class="checkmark" style="background: var(--strike-orange);"></span>
+                                    <span>Overhand</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h4>Defense</h4>
+                            <div class="technique-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="slip-left" checked>
+                                    <span class="checkmark" style="background: var(--defense-orange);"></span>
+                                    <span>Slip Left</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="slip-right" checked>
+                                    <span class="checkmark" style="background: var(--defense-orange);"></span>
+                                    <span>Slip Right</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="bob-weave">
+                                    <span class="checkmark" style="background: var(--defense-green);"></span>
+                                    <span>Bob & Weave</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="pull-back">
+                                    <span class="checkmark" style="background: var(--defense-purple);"></span>
+                                    <span>Pull Back</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="tilt-lean-back">
+                                    <span class="checkmark" style="background: var(--defense-brown);"></span>
+                                    <span>Tilt Back</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="high-block">
+                                    <span class="checkmark" style="background: var(--defense-blue);"></span>
+                                    <span>High Block</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="low-block">
+                                    <span class="checkmark" style="background: var(--defense-red);"></span>
+                                    <span>Low Block</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h4>Footwork</h4>
+                            <div class="technique-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="step-forward">
+                                    <span class="checkmark" style="background: var(--footwork-green);"></span>
+                                    <span>Step Forward</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="step-backward">
+                                    <span class="checkmark" style="background: var(--footwork-red);"></span>
+                                    <span>Step Backward</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="side-step-left">
+                                    <span class="checkmark" style="background: var(--footwork-orange);"></span>
+                                    <span>Side Step L</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="side-step-right">
+                                    <span class="checkmark" style="background: var(--footwork-orange);"></span>
+                                    <span>Side Step R</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="pivot-left">
+                                    <span class="checkmark" style="background: var(--footwork-brown);"></span>
+                                    <span>Pivot Left</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="pivot-right">
+                                    <span class="checkmark" style="background: var(--footwork-brown);"></span>
+                                    <span>Pivot Right</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h4>Kicks & Knees</h4>
+                            <div class="technique-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="front-kick">
+                                    <span class="checkmark" style="background: var(--kick-pink);"></span>
+                                    <span>Front Kick</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="roundhouse-kick-l">
+                                    <span class="checkmark" style="background: var(--kick-orange);"></span>
+                                    <span>Roundhouse L</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="roundhouse-kick-r">
+                                    <span class="checkmark" style="background: var(--kick-orange);"></span>
+                                    <span>Roundhouse R</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="low-kick-left">
+                                    <span class="checkmark" style="background: var(--kick-brown);"></span>
+                                    <span>Low Kick L</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" data-technique="low-kick-right">
+                                    <span class="checkmark" style="background: var(--kick-brown);"></span>
+                                    <span>Low Kick R</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="selection-actions">
+                        <button class="btn btn-secondary" id="select-all">
+                            <i class="fas fa-check-square"></i>
+                            Select All
+                        </button>
+                        <button class="btn btn-secondary" id="deselect-all">
+                            <i class="fas fa-square"></i>
+                            Deselect All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pattern Settings -->
+                <div class="pattern-settings">
+                    <div class="section-title">
+                        <i class="fas fa-random"></i>
+                        Pattern Settings
+                    </div>
+                    <div class="pattern-options">
+                        <div class="pattern-option">
+                            <label class="radio-label">
+                                <input type="radio" name="pattern" value="random" checked>
+                                <span class="radiomark"></span>
+                                <span>Random Sequence</span>
+                            </label>
+                        </div>
+                        <div class="pattern-option">
+                            <label class="radio-label">
+                                <input type="radio" name="pattern" value="alternating">
+                                <span class="radiomark"></span>
+                                <span>Alternating Sides</span>
+                            </label>
+                        </div>
+                        <div class="pattern-option">
+                            <label class="radio-label">
+                                <input type="radio" name="pattern" value="combo">
+                                <span class="radiomark"></span>
+                                <span>Pre-set Combos</span>
+                            </label>
+                        </div>
+                        <div class="pattern-option">
+                            <label class="radio-label">
+                                <input type="radio" name="pattern" value="custom">
+                                <span class="radiomark"></span>
+                                <span>Custom Sequence</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Combo Builder -->
+                    <div class="combo-builder" id="combo-builder">
+                        <div class="combo-builder-header">
+                            <h4>Custom Combo Builder</h4>
+                            <button class="btn btn-small" id="add-technique">
+                                <i class="fas fa-plus"></i>
+                                Add
+                            </button>
+                        </div>
+                        <div class="combo-sequence-preview" id="combo-preview">
+                            <!-- Combo will be built here -->
+                        </div>
+                        <div class="combo-actions">
+                            <button class="btn btn-small btn-secondary" id="clear-combo">
+                                <i class="fas fa-trash"></i>
+                                Clear
+                            </button>
+                            <button class="btn btn-small btn-primary" id="save-combo">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio & Visual Settings -->
+                <div class="audio-visual-settings">
+                    <div class="section-title">
+                        <i class="fas fa-sliders-h"></i>
+                        Audio & Visual
+                    </div>
+                    <div class="av-settings-grid">
+                        <div class="av-setting">
+                            <label class="av-label">
+                                <i class="fas fa-volume-up"></i>
+                                Beep Volume
+                            </label>
+                            <input type="range" id="beep-volume" min="0" max="100" value="70">
+                            <div class="av-value" id="volume-value">70%</div>
+                        </div>
+                        
+                        <div class="av-setting">
+                            <label class="av-label">
+                                <i class="fas fa-bell"></i>
+                                Round Bell
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="round-bell" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="av-setting">
+                            <label class="av-label">
+                                <i class="fas fa-eye"></i>
+                                Visual Pulse
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="visual-pulse" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="av-setting">
+                            <label class="av-label">
+                                <i class="fas fa-text-height"></i>
+                                Text Size
+                            </label>
+                            <input type="range" id="text-size" min="16" max="48" step="2" value="32">
+                            <div class="av-value" id="text-size-value">32px</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session Controls -->
+                <div class="session-controls-main">
+                    <div class="control-buttons">
+                        <button class="btn btn-primary btn-large" id="start-session">
+                            <i class="fas fa-play"></i>
+                            Start Session
+                        </button>
+                        <button class="btn btn-warning" id="pause-session" disabled>
+                            <i class="fas fa-pause"></i>
+                            Pause
+                        </button>
+                        <button class="btn btn-secondary" id="reset-session">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                        <button class="btn btn-success" id="next-round">
+                            <i class="fas fa-forward"></i>
+                            Next Round
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Area -->
+            <div class="training-area">
+                <!-- Main Stimulus Display -->
+                <div class="stimulus-display-main">
+                    <div class="stimulus-header">
+                        <div class="session-info">
+                            <div class="session-title">
+                                <i class="fas fa-fist-raised"></i>
+                                <span id="session-title">Auto Stimulus Training</span>
+                            </div>
+                            <div class="session-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Round:</span>
+                                    <span class="stat-value" id="current-round">1/5</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Time:</span>
+                                    <span class="stat-value" id="round-timer">03:00</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Next:</span>
+                                    <span class="stat-value" id="next-technique">JAB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Large Stimulus Circle -->
+                    <div class="main-stimulus-circle" id="main-stimulus-circle">
+                        <div class="circle-outer-ring"></div>
+                        <div class="circle-inner">
+                            <div class="technique-display">
+                                <div class="technique-name-large" id="technique-name-large">JAB</div>
+                                <div class="technique-icon-large" id="technique-icon-large">
+                                    <i class="fas fa-fist-raised"></i>
+                                </div>
+                                <div class="technique-category" id="technique-category">STRIKE</div>
+                            </div>
+                            <div class="countdown-ring" id="countdown-ring">
+                                <div class="countdown-fill"></div>
+                            </div>
+                        </div>
+                        <div class="technique-counter">
+                            <div class="counter-number" id="technique-number">1</div>
+                            <div class="counter-label">of <span id="total-techniques-display">30</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Sequence -->
+                    <div class="upcoming-sequence">
+                        <div class="sequence-header">
+                            <h3><i class="fas fa-list-ol"></i> Upcoming Sequence</h3>
+                            <div class="sequence-count">
+                                <span id="sequence-position">1</span>/<span id="sequence-total">10</span>
+                            </div>
+                        </div>
+                        <div class="sequence-circles" id="sequence-circles">
+                            <!-- Sequence circles will be generated here -->
+                        </div>
+                        <div class="sequence-timer">
+                            <div class="timer-progress">
+                                <div class="progress-fill" id="sequence-progress"></div>
+                            </div>
+                            <div class="timer-text">
+                                <span id="next-in">Next in:</span>
+                                <span class="timer-count" id="next-timer">1.0s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session Progress -->
+                    <div class="session-progress">
+                        <div class="progress-section">
+                            <h4><i class="fas fa-chart-line"></i> Session Progress</h4>
+                            <div class="progress-bars">
+                                <div class="progress-item">
+                                    <div class="progress-label">Round Progress</div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="round-progress" style="width: 0%"></div>
+                                        </div>
+                                        <div class="progress-percent" id="round-percent">0%</div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-label">Session Progress</div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="session-progress" style="width: 0%"></div>
+                                        </div>
+                                        <div class="progress-percent" id="session-percent">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Panel -->
+                <div class="stats-panel-main">
+                    <div class="stats-header">
+                        <div class="section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Real-time Statistics
+                        </div>
+                        <div class="stats-actions">
+                            <button class="btn btn-small" id="reset-stats">
+                                <i class="fas fa-redo"></i>
+                                Reset Stats
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid-main">
+                        <div class="stat-card-main">
+                            <div class="stat-icon-main">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="stat-content-main">
+                                <div class="stat-label-main">Techniques Displayed</div>
+                                <div class="stat-value-main" id="techniques-displayed">0</div>
+                                <div class="stat-trend-main">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span id="techniques-rate">0/min</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-main">
+                            <div class="stat-icon-main">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content-main">
+                                <div class="stat-label-main">Avg. Display Time</div>
+                                <div class="stat-value-main" id="avg-display-time">1.0s</div>
+                                <div class="stat-trend-main">
+                                    <i class="fas fa-check"></i>
+                                    <span>Optimal</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-main">
+                            <div class="stat-icon-main">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="stat-content-main">
+                                <div class="stat-label-main">Session Intensity</div>
+                                <div class="stat-value-main" id="session-intensity">Medium</div>
+                                <div class="stat-trend-main">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span id="intensity-trend">Steady</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-main">
+                            <div class="stat-icon-main">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-content-main">
+                                <div class="stat-label-main">Calories Burned</div>
+                                <div class="stat-value-main" id="calories-burned">0</div>
+                                <div class="stat-trend-main">
+                                    <i class="fas fa-running"></i>
+                                    <span id="calories-rate">0/min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Technique Distribution -->
+                    <div class="technique-distribution">
+                        <h4><i class="fas fa-pie-chart"></i> Technique Distribution</h4>
+                        <div class="distribution-chart" id="distribution-chart">
+                            <!-- Chart will be generated here -->
+                        </div>
+                        <div class="distribution-legend" id="distribution-legend">
+                            <!-- Legend will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session History -->
+                <div class="session-history">
+                    <div class="history-header">
+                        <div class="section-title">
+                            <i class="fas fa-history"></i>
+                            Session History
+                        </div>
+                        <div class="history-filter">
+                            <select id="history-filter">
+                                <option value="all">All Sessions</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <!-- History items will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Advanced Settings Modal -->
+    <div class="settings-modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cogs"></i> Advanced Settings</h2>
+                <button class="close-modal" id="close-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="timing">Timing</button>
+                        <button class="tab-btn" data-tab="visual">Visual</button>
+                        <button class="tab-btn" data-tab="audio">Audio</button>
+                        <button class="tab-btn" data-tab="advanced">Advanced</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="timing-tab">
+                        <div class="setting-group">
+                            <h3>Timing Controls</h3>
+                            <div class="setting-item-advanced">
+                                <label>Stimulus Duration Range</label>
+                                <div class="range-inputs">
+                                    <div class="range-input">
+                                        <span>Min:</span>
+                                        <input type="number" id="min-duration" min="0.1" max="5" step="0.1" value="0.5">
+                                        <span>s</span>
+                                    </div>
+                                    <div class="range-input">
+                                        <span>Max:</span>
+                                        <input type="number" id="max-duration" min="0.5" max="10" step="0.1" value="2.0">
+                                        <span>s</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Delay Variation</label>
+                                <div class="range-inputs">
+                                    <div class="range-input">
+                                        <span>Min Delay:</span>
+                                        <input type="number" id="min-delay" min="0" max="3" step="0.1" value="0.1">
+                                        <span>s</span>
+                                    </div>
+                                    <div class="range-input">
+                                        <span>Max Delay:</span>
+                                        <input type="number" id="max-delay" min="0.1" max="5" step="0.1" value="1.0">
+                                        <span>s</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Round Rest Duration</label>
+                                <div class="single-input">
+                                    <input type="number" id="rest-duration" min="10" max="300" step="10" value="60">
+                                    <span>seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="visual-tab">
+                        <div class="setting-group">
+                            <h3>Visual Settings</h3>
+                            <div class="setting-item-advanced">
+                                <label>Circle Color Scheme</label>
+                                <div class="color-schemes">
+                                    <div class="color-scheme">
+                                        <input type="radio" name="color-scheme" value="default" checked>
+                                        <div class="scheme-preview">
+                                            <div class="color-sample" style="background: var(--strike-red);"></div>
+                                            <div class="color-sample" style="background: var(--strike-blue);"></div>
+                                            <div class="color-sample" style="background: var(--strike-yellow);"></div>
+                                        </div>
+                                        <span>Default</span>
+                                    </div>
+                                    <div class="color-scheme">
+                                        <input type="radio" name="color-scheme" value="monochrome">
+                                        <div class="scheme-preview">
+                                            <div class="color-sample" style="background: #666;"></div>
+                                            <div class="color-sample" style="background: #888;"></div>
+                                            <div class="color-sample" style="background: #aaa;"></div>
+                                        </div>
+                                        <span>Monochrome</span>
+                                    </div>
+                                    <div class="color-scheme">
+                                        <input type="radio" name="color-scheme" value="high-contrast">
+                                        <div class="scheme-preview">
+                                            <div class="color-sample" style="background: #ff0000;"></div>
+                                            <div class="color-sample" style="background: #00ff00;"></div>
+                                            <div class="color-sample" style="background: #0000ff;"></div>
+                                        </div>
+                                        <span>High Contrast</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Animation Style</label>
+                                <select id="animation-style">
+                                    <option value="pulse">Pulse</option>
+                                    <option value="flash">Flash</option>
+                                    <option value="slide">Slide</option>
+                                    <option value="fade">Fade</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Background Dimming</label>
+                                <input type="range" id="background-dimming" min="0" max="100" value="20">
+                                <div class="setting-value" id="dimming-value">20%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="audio-tab">
+                        <div class="setting-group">
+                            <h3>Audio Settings</h3>
+                            <div class="setting-item-advanced">
+                                <label>Beep Tone Frequency</label>
+                                <input type="range" id="beep-frequency" min="200" max="2000" value="800">
+                                <div class="setting-value" id="frequency-value">800 Hz</div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Beep Duration</label>
+                                <input type="range" id="beep-duration" min="50" max="500" step="10" value="100">
+                                <div class="setting-value" id="beep-duration-value">100ms</div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Countdown Beeps</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="countdown-3s" checked>
+                                        <span class="checkmark"></span>
+                                        <span>3 seconds</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="countdown-5s">
+                                        <span class="checkmark"></span>
+                                        <span>5 seconds</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="countdown-10s">
+                                        <span class="checkmark"></span>
+                                        <span>10 seconds</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="advanced-tab">
+                        <div class="setting-group">
+                            <h3>Advanced Settings</h3>
+                            <div class="setting-item-advanced">
+                                <label>Auto-save Interval</label>
+                                <select id="autosave-interval">
+                                    <option value="0">Never</option>
+                                    <option value="30">Every 30 seconds</option>
+                                    <option value="60" selected>Every minute</option>
+                                    <option value="300">Every 5 minutes</option>
+                                </select>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Session Logging</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="log-techniques" checked>
+                                        <span class="checkmark"></span>
+                                        <span>Log techniques</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="log-timing" checked>
+                                        <span class="checkmark"></span>
+                                        <span>Log timing</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="log-performance">
+                                        <span class="checkmark"></span>
+                                        <span>Log performance metrics</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item-advanced">
+                                <label>Reset Settings</label>
+                                <button class="btn btn-warning" id="reset-all-settings">
+                                    <i class="fas fa-trash"></i>
+                                    Reset All Settings to Default
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-settings">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" id="save-settings">
+                        <i class="fas fa-save"></i>
+                        Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Audio Elements -->
+    <audio id="beep-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-retro-game-emergency-alarm-1000.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="round-bell-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-boxing-bell-1105.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="countdown-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="stimuli.js"></script> <!-- Changed from stimulus-engine.js to stimuli.js -->
+</body>
+</html>
